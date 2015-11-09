@@ -1,5 +1,5 @@
 
-package com.owcrobots.frc.robot;
+package ca.team2706.frc.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 
