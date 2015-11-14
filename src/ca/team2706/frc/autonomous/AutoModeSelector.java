@@ -3,7 +3,6 @@ package ca.team2706.frc.autonomous;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.team2706.frc.autonomous.modes.BasicRobotSetMode;
 import ca.team2706.frc.autonomous.modes.DriveForwardMode;
 import ca.team2706.frc.autonomous.modes.EmptyMode;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -15,7 +14,7 @@ public class AutoModeSelector {
 		//TODO: Add all autonomous modes here.
 		
 		// 000
-		modes.add(BasicRobotSetMode.class);
+		modes.add(EmptyMode.class);
 		// 001
 		modes.add(DriveForwardMode.class);
 		// 010
@@ -30,14 +29,6 @@ public class AutoModeSelector {
 		modes.add(EmptyMode.class);
 		// 111
 		modes.add(EmptyMode.class);
-		
-		/**
-		 * We need:
-		 * 000 - Do nothing
-		 * 001 - Drive to auto zone
-		 * 010 - Drive to auto zone on top of tote
-		 * 011 - Drive to auto zone on top of bin
-		 */
 	}
 	
 	/**

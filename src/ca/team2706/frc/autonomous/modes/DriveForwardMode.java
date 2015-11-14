@@ -4,7 +4,6 @@ import ca.team2706.frc.autonomous.AutoBuilder;
 import ca.team2706.frc.autonomous.AutoCommand;
 import ca.team2706.frc.autonomous.AutoMode;
 import ca.team2706.frc.autonomous.commands.DriveStraight;
-import ca.team2706.frc.autonomous.commands.GearShift;
 
 public class DriveForwardMode extends AutoMode {
 	
@@ -16,9 +15,6 @@ public class DriveForwardMode extends AutoMode {
 	protected AutoCommand[] initializeCommands() {
 		// Alignment: Back of Robot with Staging Zone 
 		AutoBuilder builder = new AutoBuilder();
-		
-		// Shift to low gear
-		builder.add(new GearShift(false));
 		
 		// Drive forward into the zone.
 		builder.add(new DriveStraight(STRAIGHT_DISTANCE));

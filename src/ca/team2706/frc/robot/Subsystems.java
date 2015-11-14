@@ -12,7 +12,6 @@ import ca.team2706.frc.autonomous.AutoHelper;
 import ca.team2706.frc.controls.EEncoder;
 import ca.team2706.frc.controls.EGamepad;
 import ca.team2706.frc.controls.EJoystick;
-import ca.team2706.frc.controls.ERobotDrive;
 import ca.team2706.frc.controls.Motor;
 import ca.team2706.frc.mechanism.SimGyro;
 import ca.team2706.frc.utils.Constants;
@@ -22,6 +21,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 
@@ -39,7 +39,7 @@ public class Subsystems {
 	public static Motor conveyorMotor;
 	
 	// Drive
-	public static ERobotDrive robotDrive;
+	public static RobotDrive robotDrive;
 	
 	// Encoders
 	public static Encoder rightDriveEncoder;

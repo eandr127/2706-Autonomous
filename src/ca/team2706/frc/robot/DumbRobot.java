@@ -4,6 +4,7 @@ package ca.team2706.frc.robot;
 import ca.team2706.frc.autonomous.AutoMode;
 import ca.team2706.frc.autonomous.AutoModeSelector;
 import ca.team2706.frc.utils.Constants;
+import ca.team2706.frc.utils.Logging;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 /**
@@ -22,6 +23,8 @@ public class DumbRobot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+    	Logging.setupLogger();
+    	
     	Constants.readConstantPropertiesFromFile();
     	Subsystems.initialize();
     	
