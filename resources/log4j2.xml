@@ -5,9 +5,9 @@
 			<PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level- %msg"/>
 			<Filters>
 				<ThresholdFilter level="warn"  onMatch="ACCEPT"/>
-            	<ThresholdFilter level="error" onMatch="ACCEPT"/>
-            	<ThresholdFilter level="fatal" onMatch="ACCEPT"/>
-            </Filters>
+				<ThresholdFilter level="error" onMatch="ACCEPT"/>
+				<ThresholdFilter level="fatal" onMatch="ACCEPT"/>
+			</Filters>
 		</Console>
 		<File name="file" fileName="/home/lvuser/auto.log">
 			<PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level- %msg"/>
@@ -16,9 +16,9 @@
 			<PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level- %msg"/>
 			<Filters>
 				<ThresholdFilter level="warn" onMatch="DENY" onMisMatch="ACCEPT"/>
-            	<ThresholdFilter level="error" onMatch="DENY" onMisMatch="ACCEPT"/>
-            	<ThresholdFilter level="fatal" onMatch="DENY" onMisMatch="ACCEPT"/>
-            </Filters>
+				<ThresholdFilter level="error" onMatch="DENY" onMisMatch="ACCEPT"/>
+				<ThresholdFilter level="fatal" onMatch="DENY" onMisMatch="ACCEPT"/>
+			</Filters>
 		</Console>
 	</Appenders>
 	<Loggers>
