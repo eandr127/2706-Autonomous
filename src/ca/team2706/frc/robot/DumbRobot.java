@@ -30,7 +30,6 @@ public class DumbRobot extends IterativeRobot {
     	
     	Subsystems.leftDriveEncoder.reset();
     	Subsystems.rightDriveEncoder.reset();
-    	Subsystems.forkliftEncoder.reset();
     	
     	selector = new AutoModeSelector();
     }
@@ -43,8 +42,6 @@ public class DumbRobot extends IterativeRobot {
     	// Select an autonomous mode! :) Uses DIO array from Subsystems. See 
     	// initialize for how it's initialized. See docs for selectMode to see
     	// how they're used.
-    	//TODO: Make this = selector.selectMode(Subsystems.inputs) when we're sure that it works
-    	// Currently we just initialize it to TestAutoMode.
     	currentAutoMode = selector.selectMode(Subsystems.inputs); //new TestAutoMode(); TODO FIX DIPSWITCH ISSUE
     	currentAutoMode.initialize();
     }

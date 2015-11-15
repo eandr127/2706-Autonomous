@@ -9,14 +9,13 @@ public class DriveForwardMode extends AutoMode {
 	
 	//TODO: Test this on practice field. These are bogus values.
 	private static final double STRAIGHT_DISTANCE = 9.45; // TODO Change this number!!!!!
-//	private static final int SIMPLE_FORKLIFT_COUNTER = 50;
 	
 	@Override
 	protected AutoCommand[] initializeCommands() {
 		// Alignment: Back of Robot with Staging Zone 
 		AutoBuilder builder = new AutoBuilder();
 		
-		// Drive forward into the zone.
+		// Drive forward
 		builder.add(new DriveStraight(STRAIGHT_DISTANCE));
 		
 		return builder.toArray();

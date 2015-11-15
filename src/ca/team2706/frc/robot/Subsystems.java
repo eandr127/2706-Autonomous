@@ -9,7 +9,6 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.Iterables;
 
 import ca.team2706.frc.autonomous.AutoHelper;
-import ca.team2706.frc.controls.EEncoder;
 import ca.team2706.frc.controls.EGamepad;
 import ca.team2706.frc.controls.EJoystick;
 import ca.team2706.frc.controls.Motor;
@@ -18,25 +17,16 @@ import ca.team2706.frc.utils.Constants;
 import ca.team2706.frc.utils.SimPID;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.SerialPort.Port;
 
 
 public class Subsystems {	
 	
 	// Motors
-	public static Motor rightFrontDrive;
-	public static Motor rightRearDrive;
-	public static Motor leftFrontDrive;
-	public static Motor leftRearDrive;
-	public static Motor rightArmMotor;
-	public static Motor leftArmMotor;
-	public static Motor forkliftMotor;
-	public static Motor conveyorMotor;
+	public static Motor rightDrive;
+	public static Motor leftDrive;
 	
 	// Drive
 	public static RobotDrive robotDrive;
@@ -44,14 +34,10 @@ public class Subsystems {
 	// Encoders
 	public static Encoder rightDriveEncoder;
 	public static Encoder leftDriveEncoder;
-	public static EEncoder forkliftEncoder;
 	
 	// Sensor
-	public static DigitalInput toteDetectionSensor;
 	public static SimGyro gyroSensor;
 	
-	//Solenoid - Gear control
-	public static DoubleSolenoid gearShiftSolenoid;
 	// USB
 	public static EJoystick	driveJoystick;
 	public static EGamepad controlGamepad;
@@ -59,13 +45,9 @@ public class Subsystems {
 	// Power Panel
 	public static PowerDistributionPanel powerPanel;
 	
-	// Bling
-	public static SerialPort blingPort;
-	
 	public static Compressor compressor;
  	
  	// PIDs
- 	public static SimPID forkliftPID;
  	public static SimPID gyroPID;
  	public static SimPID encoderPID;
  	
@@ -86,22 +68,10 @@ public class Subsystems {
 		
 		//Compressor
 		compressor = new Compressor();
-
-		
-		//Solenoid - Gear shift
-		gearShiftSolenoid = new DoubleSolenoid(Constants.getConstantAsInt(Constants.COMPRESSOR_CHANNEL), 
-				Constants.getConstantAsInt(Constants.SOLENOID_SHIFTER_CHANNEL1),
-				Constants.getConstantAsInt(Constants.SOLENOID_SHIFTER_CHANNEL2));
 		
 		// Sensors
-		toteDetectionSensor = new DigitalInput(Constants.getConstantAsInt(Constants.DIO_TOTE_DETECT_SENSOR));
 		gyroSensor = new SimGyro(Constants.getConstantAsInt(Constants.AIO_GYRO_SENSOR));
 		gyroSensor.initGyro();
-
-		// Bling
-		if (Constants.getConstantAsInt(Constants.BLING_ENABLED) > 0) {
-			blingPort = new SerialPort(9600, Port.kMXP);
-		}
 		
 		initPID();
 
@@ -117,13 +87,6 @@ public class Subsystems {
 	 */
 	public static void initPID() {
 		//PIDs
-		forkliftPID = new SimPID(
-				Constants.getConstantAsDouble(Constants.FORKLIFT_PID_P),
-				Constants.getConstantAsDouble(Constants.FORKLIFT_PID_I),
-				Constants.getConstantAsDouble(Constants.FORKLIFT_PID_D),
-				Constants.getConstantAsDouble(Constants.FORKLIFT_PID_E)
-				);
-
 		gyroPID = new SimPID(
 				Constants.getConstantAsDouble(Constants.GYRO_PID_P),
 				Constants.getConstantAsDouble(Constants.GYRO_PID_I),
@@ -140,31 +103,33 @@ public class Subsystems {
 	}
 	
 	/**
-	 * Read in the encoder values from the autonomous config file. TODO:
-	 * Integrate this with Georges' Constants class.
+	 * Read in the encoder values from the autonomous config file.
 	 */
 	public static void readEncoderValues(double encoderADistancePerPulseOverride, double encoderBDistancePerPulseOverride) {
 		double encoderADistancePerPulse = encoderADistancePerPulseOverride;
 		double encoderBDistancePerPulse = encoderBDistancePerPulseOverride;
 		
 		try {
+			//Read values from file
 			List<String> guavaResult = Files.readAllLines(new File(Constants.getConstant(Constants.CALIBRATION_FILE_LOC)).toPath(), Charsets.UTF_8);
 			Iterable<String> guavaResultFiltered = Iterables.filter(guavaResult, AutoHelper.SKIP_COMMENTS);
 
 			String[] s = Iterables.toArray(AutoHelper.SPLITTER.split(guavaResultFiltered.iterator().next()), String.class);
-
+			
 			if (encoderADistancePerPulse == 0) {
 				encoderADistancePerPulse = Double.parseDouble(s[0]);
 			}
 			if (encoderBDistancePerPulse == 0) {
 				encoderBDistancePerPulse = Double.parseDouble(s[1]);
 			} 
-
+			
+			//Set feet to encoder tick ratios from file
 			System.out.println("EncoderADistancePerPulse:" + encoderADistancePerPulse + ", EncoderBDistancePerPulse:" + encoderBDistancePerPulse);
 			leftDriveEncoder.setDistancePerPulse(encoderADistancePerPulse);
 			rightDriveEncoder.setDistancePerPulse(encoderBDistancePerPulse);
 		} catch (IOException e) {
 			System.out.println("Calibration file read error!");
+			//Set to backup values
 			leftDriveEncoder.setDistancePerPulse(encoderADistancePerPulseOverride);
 			rightDriveEncoder.setDistancePerPulse(encoderBDistancePerPulseOverride);
 		}

@@ -5,11 +5,7 @@ import java.util.List;
 
 public class AutoBuilder {
 	private List<AutoCommand> commands = new ArrayList<AutoCommand>();
-	
-	public AutoBuilder() {
-		
-	}
-	
+
 	public void add(AutoCommand autoCommand) {
 		commands.add(autoCommand);
 	}

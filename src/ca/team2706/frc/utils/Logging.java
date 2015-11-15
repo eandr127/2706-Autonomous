@@ -6,6 +6,9 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/*
+ * TODO: Only print to stdout when in debug
+ */
 public class Logging {
 	
 	private static final Logger logger = LogManager.getRootLogger();
@@ -27,6 +30,7 @@ public class Logging {
 		return new PrintStream(realPrintStream) {
 			//Implement all print and println methods in PrintStream
 			//and log the parameter passed in
+			//TODO: Reimplement one or two more general methods rather than the 19 below
 	        public void print(final String string) {
 	        	logger.log(level, string);
 	        }

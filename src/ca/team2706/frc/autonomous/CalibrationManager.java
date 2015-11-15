@@ -11,27 +11,34 @@ public class CalibrationManager {
 	private boolean calibrationDone = false;
 	
 	public void calibrateInit() {
+		//Reset encoders
     	Subsystems.leftDriveEncoder.reset();
     	Subsystems.rightDriveEncoder.reset();
     	
-    	Subsystems.driveJoystick.enableButton(Constants.getConstantAsInt(Constants.CALIBRATION_BUTTON));
+    	//Enable button for calibration
+    	Subsystems.driveJoystick.enableButton(Constants.getConstantAsInt(Constants.JOYSTICK_CALIBRATE));
 	}
 	
 	public void calibrateTick() {
+		//Check if the calibration button is pressed
 		if(Subsystems.driveJoystick.getEvent(Constants.getConstantAsInt(Constants.JOYSTICK_CALIBRATE))
 				!= ButtonEntry.EVENT_CLOSED) {
+			//If not continue to drive
     		Subsystems.driveJoystick.update();
     		Subsystems.robotDrive.arcadeDrive(Subsystems.driveJoystick, false);
     	}
 		else if(!calibrationDone) {
+			//If button was just released, stop
 			Subsystems.robotDrive.drive(0, 0);
 	    	
+			//Get encoder ticks traveled while button was held
 	    	int encoderAValue = Subsystems.leftDriveEncoder.get();
 	    	int encoderBValue = Subsystems.rightDriveEncoder.get();
 	    	
 	    	double encoderAConstant = 0;
 	    	double encoderBConstant = 0;
 	    	
+	    	//Get feet to encoder tick ratio
 	    	if(encoderAValue != 0) {
 	    		encoderAConstant = 5.0 / encoderAValue;
 	    	}
@@ -40,6 +47,7 @@ public class CalibrationManager {
 	    		encoderBConstant = 5.0 / encoderBValue;
 	    	}
 	    	
+	    	//Write ratio to file for reading from later
 	    	String value = "//Encoder A (Left), Distance Travelled: 5ft, Number of encoder ticks: " + encoderAValue
 	    			+ ", Calibration constant: " + encoderAConstant;
 	    	System.out.println(value);

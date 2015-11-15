@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ca.team2706.frc.mechanism;
 
 import edu.wpi.first.wpilibj.AnalogInput;

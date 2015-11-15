@@ -33,10 +33,12 @@ public class DriveStraight implements AutoCommand {
 	@Override
 	public boolean tick() {
 		if (!Subsystems.encoderPID.isDone()) {
+			//Calculate the speed to drive at using PID
 			double driveVal = Subsystems.encoderPID.calcPID((Subsystems.leftDriveEncoder.getDistance() + Subsystems.rightDriveEncoder.getDistance()) / 2.0);
-			// TODO: Read this from the constants file as "encoderPIDMax"
+			//Limit the value so that the robot doesn't hit anything too hard
 			double limitVal = SimLib.limitValue(driveVal, Constants.getConstantAsDouble(Constants.ENCODER_PID_MAX));
 
+			//Drive straight at speed that was previously calculated
 			Subsystems.robotDrive.setLeftRightMotorOutputs(limitVal, limitVal);
 			System.out.println("LEV:" + Subsystems.leftDriveEncoder.get() + ",REV:" + Subsystems.rightDriveEncoder.get()+
 					",LED:" + Subsystems.leftDriveEncoder.getDistance() + ",RED:" + Subsystems.rightDriveEncoder.getDistance()+",DV:"+driveVal);
@@ -48,6 +50,7 @@ public class DriveStraight implements AutoCommand {
 
 	@Override
 	public void cleanup() {
+		//Stop driving
 		Subsystems.robotDrive.drive(0.0, 0.0);	
 	}
 
