@@ -23,7 +23,7 @@ public class DumbRobot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-    	Logging.setupLogger();
+    	Logging.setupLogger(new Boolean(Constants.getConstant(Constants.DEBUG_LOGGING)));
     	
     	Constants.readConstantPropertiesFromFile();
     	Subsystems.initialize();

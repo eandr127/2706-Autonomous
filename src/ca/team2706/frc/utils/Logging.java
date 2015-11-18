@@ -1,14 +1,12 @@
 package ca.team2706.frc.utils;
 
+import java.io.IOException;
 import java.io.PrintStream;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/*
- * TODO: Only print to stdout when in debug
- */
 public class Logging {
 	
 	private static final Logger logger = LogManager.getRootLogger();
@@ -20,74 +18,33 @@ public class Logging {
 
 	/**
 	 * Forward all System.out/err.print(ln) calls to Log4j
+	 * 
+	 * @param debug Whether to enable printing to stdout or not
 	 */
-	public static void setupLogger() {
-		System.setOut(createLoggingProxy(System.out, Level.INFO));
-		System.setErr(createLoggingProxy(System.err, Level.ERROR));
+	public static void setupLogger(boolean debug) {
+		System.setOut(createLoggingProxy(System.out, Level.INFO, debug));
+		System.setErr(createLoggingProxy(System.err, Level.ERROR, true));		
 	}
 	
-	private static PrintStream createLoggingProxy(final PrintStream realPrintStream, Level level) {
+	private static PrintStream createLoggingProxy(final PrintStream realPrintStream, Level level, boolean enabled) {
 		return new PrintStream(realPrintStream) {
-			//Implement all print and println methods in PrintStream
-			//and log the parameter passed in
-			//TODO: Reimplement one or two more general methods rather than the 19 below
-	        public void print(final String string) {
-	        	logger.log(level, string);
-	        }
-	        public void print(final boolean b) {
-	        	logger.log(level, b+"");
-	        }
-	        public void print(final char c) {
-	        	logger.log(level, c+"");
-	        }
-	        public void print(final char[] s) {
-	        	logger.log(level, s.toString());
-	        }
-	        public void print(final double d) {
-	        	logger.log(level, d+"");
-	        }
-	        public void print(final float f) {
-	        	logger.log(level, f+"");
-	        }
-	        public void print(final int i) {
-	        	logger.log(level, i+"");
-	        }
-	        public void print(final long l) {
-	        	logger.log(level, l+"");
-	        }
-	        public void print(final Object o) {
-	        	logger.log(level, o+"");
-	        }
-	        public void println(final String x) {
-	        	logger.log(level, x+"\n");
-	        }
-	        public void println(final boolean x) {
-	        	logger.log(level, x+"\n");
-	        }
-	        public void println(final char x) {
-	        	logger.log(level, x+"\n");
-	        }
-	        public void println(final char[] x) {
-	        	logger.log(level, x.toString()+"\n");
-	        }
-	        public void println(final double x) {
-	        	logger.log(level, x+"\n");
-	        }
-	        public void println(final float x) {
-	        	logger.log(level, x+"\n");
-	        }
-	        public void println(final int x) {
-	        	logger.log(level, x+"\n");
-	        }
-	        public void println(final long x) {
-	        	logger.log(level, x+"\n");
-	        }
-	        public void println(final Object x) {
-	        	logger.log(level, x+"\n");
-	        }
-	        public void println() {
-	        	logger.log(level, "\n");
-	        }
+			public void write(byte[] b) throws IOException {
+			    String string = new String(b);
+			    if (!string.trim().isEmpty() && enabled)
+			        logger.log(level, string);
+			}
+
+			public void write(byte[] b, int off, int len) {
+			    String string = new String(b, off, len);
+			    if (!string.trim().isEmpty() && enabled)
+			        logger.log(level, string);
+			}
+
+			public void write(int b) {
+			    String string = String.valueOf((char) b);
+			    if (!string.trim().isEmpty() && enabled)
+			        logger.log(level, string);
+			}
 		};
 	}
 }

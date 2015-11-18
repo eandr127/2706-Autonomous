@@ -2,18 +2,20 @@
 <Configuration>
 	<Appenders>
 		<Console name="stderr" target="SYSTEM_ERR">
-			<PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level- %msg"/>
+			<PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level - %msg%n"/>
 			<Filters>
 				<ThresholdFilter level="warn"  onMatch="ACCEPT"/>
 				<ThresholdFilter level="error" onMatch="ACCEPT"/>
 				<ThresholdFilter level="fatal" onMatch="ACCEPT"/>
 			</Filters>
 		</Console>
-		<File name="file" fileName="/home/lvuser/auto.log">
-			<PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level- %msg"/>
-		</File>
+		<RollingFile name="rollingfile" fileName="/home/lvuser/latest-auto.log" filePattern="/home/lvuser/old-auto-%d{MM-dd-yyyy}-%i.log">
+			<PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level - %msg%n"/>
+			<OnStartupTriggeringPolicy />
+			<DefaultRolloverStrategy max="4"/>
+		</RollingFile>
 		<Console name="stdout" target="SYSTEM_OUT">
-			<PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level- %msg"/>
+			<PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level - %msg%n"/>
 			<Filters>
 				<ThresholdFilter level="warn" onMatch="DENY" onMisMatch="ACCEPT"/>
 				<ThresholdFilter level="error" onMatch="DENY" onMisMatch="ACCEPT"/>
@@ -26,7 +28,7 @@
 		<Root level="debug">
 			<AppenderRef ref="stderr"/>
 			<AppenderRef ref="stdout"/>
-			<AppenderRef ref="file"/>
+			<AppenderRef ref="rollingfile"/>
 		</Root>
 	</Loggers>
 </Configuration>

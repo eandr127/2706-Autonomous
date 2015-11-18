@@ -54,9 +54,12 @@ public class Constants
 	
 	//Joystick Buttons
 	public static final String JOYSTICK_CALIBRATE  =			"JOYSTICK_CALIBRATE";
+	
+	//Other
+	public static final String DEBUG_LOGGING = 					"DEBUG_LOGGING";
 
 	static {
-		// PWM
+		// Motor Types
 		defaults.put(MOTOR_TYPE_DRIVE, "0");
 		
 		// PWM
@@ -99,6 +102,9 @@ public class Constants
 		
 		//Joystick Buttons
 		defaults.put(JOYSTICK_CALIBRATE, "2");
+		
+		//Other
+		defaults.put(DEBUG_LOGGING, "true");
 		
 		constants.putAll(defaults);
 	}
