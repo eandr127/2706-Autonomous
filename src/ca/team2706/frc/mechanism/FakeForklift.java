@@ -7,6 +7,13 @@ public class FakeForklift {
 	private final DigitalOutput[] leds;
 	private int currentLevel = 0;
 	
+	/**
+	 * Initializes FakeForklift
+	 * 
+	 * @param channels The channels to use for the LEDs,
+	 *  the length of the array must be 4, and for best results,
+	 *  it should have all different values
+	 */
 	public FakeForklift(int[] channels) {
 		//Make sure that the amount of channels given was correct
 		if(channels.length != 4)
@@ -22,6 +29,7 @@ public class FakeForklift {
 	
 	/**
 	 * Raise the forklift level by one
+	 * 
 	 * @return true unless at the highest forklift level
 	 */
 	public boolean raiseForklift() {
@@ -37,6 +45,7 @@ public class FakeForklift {
 	
 	/**
 	 * Lower the forklift level by one
+	 * 
 	 * @return true unless at the lowest forklift level
 	 */
 	public boolean lowerForlift() {
