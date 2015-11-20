@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<Appenders>
+		<Console name="stderr" target="SYSTEM_ERR">
+			<PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level - %msg%n"/>
+			<Filters>
+				<ThresholdFilter level="warn"  onMatch="ACCEPT"/>
+				<ThresholdFilter level="error" onMatch="ACCEPT"/>
+				<ThresholdFilter level="fatal" onMatch="ACCEPT"/>
+			</Filters>
+		</Console>
+		<RollingFile name="rollingfile" fileName="/home/lvuser/latest-auto.log" filePattern="/home/lvuser/old-auto-%d{MM-dd-yyyy}-%i.log">
+			<PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level - %msg%n"/>
+			<OnStartupTriggeringPolicy />
+			<DefaultRolloverStrategy max="4"/>
+		</RollingFile>
+		<Console name="stdout" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level - %msg%n"/>
+			<Filters>
+				<ThresholdFilter level="warn" onMatch="DENY" onMisMatch="ACCEPT"/>
+				<ThresholdFilter level="error" onMatch="DENY" onMisMatch="ACCEPT"/>
+				<ThresholdFilter level="fatal" onMatch="DENY" onMisMatch="ACCEPT"/>
+			</Filters>
+		</Console>
+	</Appenders>
+	<Loggers>
+		<Logger name="org.apache.log4j.xml" level="all"/>
+		<Root level="debug">
+			<AppenderRef ref="stderr"/>
+			<AppenderRef ref="stdout"/>
+			<AppenderRef ref="rollingfile"/>
+		</Root>
+	</Loggers>
+</Configuration>

@@ -1,6 +1,10 @@
 
 package ca.team2706.frc.robot;
 
+import ca.team2706.frc.autonomous.AutoMode;
+import ca.team2706.frc.autonomous.AutoModeSelector;
+import ca.team2706.frc.utils.Constants;
+import ca.team2706.frc.utils.Logging;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 /**
@@ -11,12 +15,23 @@ import edu.wpi.first.wpilibj.IterativeRobot;
  * directory.
  */
 public class DumbRobot extends IterativeRobot {
+	public AutoMode currentAutoMode;
+	private AutoModeSelector selector;
+	
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
-
+    	Logging.setupLogger(new Boolean(Constants.getConstant(Constants.DEBUG_LOGGING)));
+    	
+    	Constants.readConstantPropertiesFromFile();
+    	Subsystems.initialize();
+    	
+    	Subsystems.leftDriveEncoder.reset();
+    	Subsystems.rightDriveEncoder.reset();
+    	
+    	selector = new AutoModeSelector();
     }
 
     /**
@@ -24,13 +39,17 @@ public class DumbRobot extends IterativeRobot {
      *  used for any initialization code.
      */
     public void autonomousInit() {
-    	
+    	// Select an autonomous mode! :) Uses DIO array from Subsystems. See 
+    	// initialize for how it's initialized. See docs for selectMode to see
+    	// how they're used.
+    	currentAutoMode = selector.selectMode(Subsystems.inputs); //new TestAutoMode(); TODO FIX DIPSWITCH ISSUE
+    	currentAutoMode.initialize();
     }
     
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-
+    	currentAutoMode.tick();
     }
 }
