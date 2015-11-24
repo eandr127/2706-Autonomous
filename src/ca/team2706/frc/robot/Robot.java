@@ -7,6 +7,8 @@ import ca.team2706.frc.utils.Constants;
 import ca.team2706.frc.utils.Logging;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
+import org.strongback.Strongback;
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -14,7 +16,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class DumbRobot extends IterativeRobot {
+public class Robot extends IterativeRobot {
 	public AutoMode currentAutoMode;
 	private AutoModeSelector selector;
 	
@@ -51,5 +53,21 @@ public class DumbRobot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
     	currentAutoMode.tick();
+    }
+    
+    @Override
+    public void teleopInit() {
+        // Start Strongback functions ...
+        Strongback.start();
+    }
+
+    @Override
+    public void teleopPeriodic() {
+    }
+
+    @Override
+    public void disabledInit() {
+        // Tell Strongback that the robot is disabled so it can flush and kill commands.
+        Strongback.disable();
     }
 }
