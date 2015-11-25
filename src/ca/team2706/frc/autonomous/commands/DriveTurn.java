@@ -4,7 +4,7 @@ import ca.team2706.frc.autonomous.AutoCommand;
 import ca.team2706.frc.robot.Subsystems;
 import ca.team2706.frc.utils.SimLib;
 
-public class DriveTurn implements AutoCommand {
+public class DriveTurn extends AutoCommand {
 
 	private final int angle;
 	

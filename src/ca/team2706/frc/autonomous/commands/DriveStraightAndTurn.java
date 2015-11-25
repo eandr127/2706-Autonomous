@@ -5,7 +5,7 @@ import ca.team2706.frc.robot.Subsystems;
 import ca.team2706.frc.utils.Constants;
 import ca.team2706.frc.utils.SimLib;
 
-public class DriveStraightAndTurn implements AutoCommand {
+public class DriveStraightAndTurn extends AutoCommand {
 
 	private final double x;
 	private final double y;

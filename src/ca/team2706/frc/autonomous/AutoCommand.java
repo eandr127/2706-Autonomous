@@ -1,7 +1,21 @@
 package ca.team2706.frc.autonomous;
 
-public interface AutoCommand {
-	public void initialize();
-	public boolean tick();
-	public void cleanup();
+import org.strongback.command.Command;
+
+public abstract class AutoCommand extends Command {
+	
+	@Override
+	public boolean execute() {
+		if(tick()) {
+			cleanup();
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	public abstract void initialize();
+	public abstract boolean tick();
+	public abstract void cleanup();
 }

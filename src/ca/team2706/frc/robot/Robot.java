@@ -24,6 +24,7 @@ public class Robot extends IterativeRobot {
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
+	@Override
     public void robotInit() {
     	Logging.setupLogger(new Boolean(Constants.getConstant(Constants.DEBUG_LOGGING)));
     	
@@ -40,21 +41,15 @@ public class Robot extends IterativeRobot {
      * This function is run when the autonomous mode is first started up and should be
      *  used for any initialization code.
      */
+	@Override
     public void autonomousInit() {
     	Strongback.start();
     	
     	// Select an autonomous mode! :) Uses DIO array from Subsystems. See 
     	// initialize for how it's initialized. See docs for selectMode to see
     	// how they're used.
-    	currentAutoMode = selector.selectMode(Subsystems.inputs); //new TestAutoMode(); TODO FIX DIPSWITCH ISSUE
+    	currentAutoMode = selector.selectMode(Subsystems.inputs);
     	currentAutoMode.initialize();
-    }
-    
-    /**
-     * This function is called periodically during autonomous
-     */
-    public void autonomousPeriodic() {
-    	currentAutoMode.tick();
     }
     
     @Override
