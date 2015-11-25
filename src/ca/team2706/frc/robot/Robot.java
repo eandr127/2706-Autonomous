@@ -41,6 +41,8 @@ public class Robot extends IterativeRobot {
      *  used for any initialization code.
      */
     public void autonomousInit() {
+    	Strongback.start();
+    	
     	// Select an autonomous mode! :) Uses DIO array from Subsystems. See 
     	// initialize for how it's initialized. See docs for selectMode to see
     	// how they're used.
@@ -57,16 +59,21 @@ public class Robot extends IterativeRobot {
     
     @Override
     public void teleopInit() {
-        // Start Strongback functions ...
+        // Restart Strongback functions ...
+    	Strongback.disable();
         Strongback.start();
     }
 
     @Override
     public void teleopPeriodic() {
+    	// Drive with joystick
+    	Subsystems.robotDrive.arcade(Subsystems.driveJoystick.getPitch().read(), Subsystems.driveJoystick.getRoll().read());
     }
 
     @Override
     public void disabledInit() {
+    	Subsystems.robotDrive.stop();
+    	
         // Tell Strongback that the robot is disabled so it can flush and kill commands.
         Strongback.disable();
     }
