@@ -16,8 +16,8 @@ public class DriveStraight implements AutoCommand {
 	@Override
 	public void initialize() {
 		// Reset the encoders (encoder.get(Distance|)() == 0)
-		Subsystems.leftDriveEncoder.reset();
-		Subsystems.rightDriveEncoder.reset();
+		Subsystems.leftDriveEncoder.zero();
+		Subsystems.rightDriveEncoder.zero();
 		// Set up the desired number of units.
 		Subsystems.encoderPID.setDesiredValue(distance);
 		// Reset the encoder PID to a reasonable state.
@@ -34,14 +34,14 @@ public class DriveStraight implements AutoCommand {
 	public boolean tick() {
 		if (!Subsystems.encoderPID.isDone()) {
 			//Calculate the speed to drive at using PID
-			double driveVal = Subsystems.encoderPID.calcPID((Subsystems.leftDriveEncoder.getDistance() + Subsystems.rightDriveEncoder.getDistance()) / 2.0);
+			double driveVal = Subsystems.encoderPID.calcPID((Subsystems.leftDriveEncoder.getAngle() + Subsystems.rightDriveEncoder.getAngle()) / 2.0);
 			//Limit the value so that the robot doesn't hit anything too hard
 			double limitVal = SimLib.limitValue(driveVal, Constants.getConstantAsDouble(Constants.ENCODER_PID_MAX));
 
 			//Drive straight at speed that was previously calculated
-			Subsystems.robotDrive.setLeftRightMotorOutputs(limitVal, limitVal);
-			System.out.println("LEV:" + Subsystems.leftDriveEncoder.get() + ",REV:" + Subsystems.rightDriveEncoder.get()+
-					",LED:" + Subsystems.leftDriveEncoder.getDistance() + ",RED:" + Subsystems.rightDriveEncoder.getDistance()+",DV:"+driveVal);
+			Subsystems.robotDrive.tank(limitVal, limitVal);
+			System.out.println("LEV:" + Subsystems.leftDriveEncoder.getAngle() + ",REV:" + Subsystems.rightDriveEncoder.getAngle()+
+					",LED:" + Subsystems.leftDriveEncoder.getAngle() + ",RED:" + Subsystems.rightDriveEncoder.getAngle()+",DV:"+driveVal);
 			return true;
 		}
 		return false;
@@ -51,7 +51,7 @@ public class DriveStraight implements AutoCommand {
 	@Override
 	public void cleanup() {
 		//Stop driving
-		Subsystems.robotDrive.drive(0.0, 0.0);	
+		Subsystems.robotDrive.stop();	
 	}
 
 }

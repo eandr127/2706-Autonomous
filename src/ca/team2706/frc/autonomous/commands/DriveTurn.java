@@ -15,7 +15,7 @@ public class DriveTurn implements AutoCommand {
 	@Override
 	public void initialize() {
 		Subsystems.gyroPID.setDesiredValue(angle);
-		Subsystems.gyroSensor.reset(0);
+		Subsystems.gyroSensor.zero();
 		// Reset the gyro PID to a reasonable state.
 		Subsystems.gyroPID.resetErrorSum();
 		Subsystems.gyroPID.resetPreviousVal();
@@ -38,8 +38,8 @@ public class DriveTurn implements AutoCommand {
 			System.out.println("gyro.getAngle() = " + Subsystems.gyroSensor.getAngle()+",limitVal = " + limitVal);
 			
 			//Rotate robot
-			Subsystems.robotDrive.setLeftRightMotorOutputs(limitVal, -limitVal);
-			System.out.println("Right: " + Subsystems.rightDrive.get() + " Left: " + Subsystems.leftDrive.get());
+			Subsystems.robotDrive.tank(limitVal, -limitVal);
+			System.out.println("Right: " + Subsystems.rightDrive.getSpeed() + " Left: " + Subsystems.leftDrive.getSpeed());
 			return true;
 		}
 		return false;
@@ -51,7 +51,7 @@ public class DriveTurn implements AutoCommand {
 		System.out.println("DriveTurn Cleanup");
 		
 		//Stop
-		Subsystems.robotDrive.drive(0.0, 0.0);
+		Subsystems.robotDrive.stop();
 	}
 	
 }

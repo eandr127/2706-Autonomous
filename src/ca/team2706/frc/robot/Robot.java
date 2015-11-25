@@ -30,8 +30,8 @@ public class Robot extends IterativeRobot {
     	Constants.readConstantPropertiesFromFile();
     	Subsystems.initialize();
     	
-    	Subsystems.leftDriveEncoder.reset();
-    	Subsystems.rightDriveEncoder.reset();
+    	Subsystems.leftDriveEncoder.zero();
+    	Subsystems.rightDriveEncoder.zero();
     	
     	selector = new AutoModeSelector();
     }

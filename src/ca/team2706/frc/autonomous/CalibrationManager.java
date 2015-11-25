@@ -2,7 +2,6 @@ package ca.team2706.frc.autonomous;
 
 import java.io.File;
 
-import ca.team2706.frc.controls.ButtonEntry;
 import ca.team2706.frc.robot.Subsystems;
 import ca.team2706.frc.utils.Constants;
 
@@ -12,29 +11,24 @@ public class CalibrationManager {
 	
 	public void calibrateInit() {
 		//Reset encoders
-    	Subsystems.leftDriveEncoder.reset();
-    	Subsystems.rightDriveEncoder.reset();
-    	
-    	//Enable button for calibration
-    	Subsystems.driveJoystick.enableButton(Constants.getConstantAsInt(Constants.JOYSTICK_CALIBRATE));
+    	Subsystems.leftDriveEncoder.zero();
+    	Subsystems.rightDriveEncoder.zero();
 	}
 	
 	public void calibrateTick() {
 		//Check if the calibration button is pressed
-		if(Subsystems.driveJoystick.getEvent(Constants.getConstantAsInt(Constants.JOYSTICK_CALIBRATE))
-				!= ButtonEntry.EVENT_CLOSED) {
+		if(Subsystems.driveJoystick.getButton(Constants.getConstantAsInt(Constants.JOYSTICK_CALIBRATE)).isTriggered()) {
 			//If not continue to drive
-    		Subsystems.driveJoystick.update();
-    		Subsystems.robotDrive.arcadeDrive(Subsystems.driveJoystick, false);
+    		Subsystems.robotDrive.arcade(Subsystems.driveJoystick.getPitch().read(), Subsystems.driveJoystick.getRoll().read());
     	}
 		else if(!calibrationDone) {
 			//If button was just released, stop
-			Subsystems.robotDrive.drive(0, 0);
+			Subsystems.robotDrive.stop();
 	    	
 			//Get encoder ticks traveled while button was held
-	    	int encoderAValue = Subsystems.leftDriveEncoder.get();
-	    	int encoderBValue = Subsystems.rightDriveEncoder.get();
-	    	
+	    	int encoderAValue = (int) Subsystems.leftDriveEncoder.getAngle();
+	    	int encoderBValue = (int) Subsystems.rightDriveEncoder.getAngle();
+	    			
 	    	double encoderAConstant = 0;
 	    	double encoderBConstant = 0;
 	    	

@@ -40,7 +40,7 @@ public class DriveStraightAndTurn implements AutoCommand {
 		}
 		
 		Subsystems.gyroPID.setDesiredValue(angle);
-		Subsystems.gyroSensor.reset(0);
+		Subsystems.gyroSensor.zero();
 		// Reset the gyro PID to a reasonable state.
 		Subsystems.gyroPID.resetErrorSum();
 		Subsystems.gyroPID.resetPreviousVal();
@@ -64,7 +64,7 @@ public class DriveStraightAndTurn implements AutoCommand {
 			System.out.println("limitVal = " + limitVal);
 			
 			//Rotate
-			Subsystems.robotDrive.setLeftRightMotorOutputs(limitVal, -limitVal);
+			Subsystems.robotDrive.tank(limitVal, -limitVal);
 
 			return true;
 		}
@@ -77,14 +77,14 @@ public class DriveStraightAndTurn implements AutoCommand {
 			
 			//Calculate how fast to drive with PID
 			double driveVal = Subsystems.encoderPID
-					.calcPID((Subsystems.leftDriveEncoder.getDistance() + Subsystems.rightDriveEncoder
-							.getDistance()) / 2.0);
+					.calcPID((Subsystems.leftDriveEncoder.getAngle() + Subsystems.rightDriveEncoder
+							.getAngle()) / 2.0);
 
 			//Limit value again
 			double limitVal = SimLib.limitValue(driveVal, Constants.getConstantAsDouble(Constants.ENCODER_PID_MAX));
 
 			//Drive in a straight line
-			Subsystems.robotDrive.setLeftRightMotorOutputs(limitVal, limitVal);
+			Subsystems.robotDrive.tank(limitVal, limitVal);
 			return true;
 		}
 		return false;
@@ -92,14 +92,14 @@ public class DriveStraightAndTurn implements AutoCommand {
 
 	@Override
 	public void cleanup() {
-		Subsystems.robotDrive.drive(0.0, 0.0);
+		Subsystems.robotDrive.stop();
 	}
 	
 	private void stage2Init() {
 		double distance = Math.sqrt((x * x) + (y * y));
 		// Reset the encoders (encoder.get(Distance|)() == 0)
-		Subsystems.leftDriveEncoder.reset();
-		Subsystems.rightDriveEncoder.reset();
+		Subsystems.leftDriveEncoder.zero();
+		Subsystems.rightDriveEncoder.zero();
 		// Set up the desired number of units.
 		Subsystems.encoderPID.setDesiredValue(distance);
 		// Reset the encoder PID to a reasonable state.
