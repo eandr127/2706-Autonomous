@@ -3,14 +3,16 @@ package ca.team2706.frc.autonomous;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AutoBuilder {
-	private List<AutoCommand> commands = new ArrayList<AutoCommand>();
+import org.strongback.command.Command;
 
-	public void add(AutoCommand autoCommand) {
+public class AutoBuilder {
+	private List<Command> commands = new ArrayList<Command>();
+
+	public void add(Command autoCommand) {
 		commands.add(autoCommand);
 	}
 	
-	public AutoCommand[] toArray() {
-		return commands.toArray(new AutoCommand[commands.size()]);
+	public Command[] toArray() {
+		return commands.toArray(new Command[commands.size()]);
 	}
 }

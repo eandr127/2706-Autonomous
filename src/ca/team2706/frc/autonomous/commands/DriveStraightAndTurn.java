@@ -1,11 +1,12 @@
 package ca.team2706.frc.autonomous.commands;
 
-import ca.team2706.frc.autonomous.AutoCommand;
+import org.strongback.command.Command;
+
 import ca.team2706.frc.robot.Subsystems;
 import ca.team2706.frc.utils.Constants;
 import ca.team2706.frc.utils.SimLib;
 
-public class DriveStraightAndTurn extends AutoCommand {
+public class DriveStraightAndTurn extends Command {
 
 	private final double x;
 	private final double y;
@@ -51,7 +52,7 @@ public class DriveStraightAndTurn extends AutoCommand {
 	}
 
 	@Override
-	public boolean tick() {
+	public boolean execute() {
 		// Rotating phase 
 		if (!Subsystems.gyroPID.isDone()) {
 			System.out.println("gyro.getAngle() = " + Subsystems.gyroSensor.getAngle());
@@ -91,7 +92,12 @@ public class DriveStraightAndTurn extends AutoCommand {
 	}
 
 	@Override
-	public void cleanup() {
+	public void interrupted() {
+		end();
+	}
+	
+	@Override
+	public void end() {
 		Subsystems.robotDrive.stop();
 	}
 	

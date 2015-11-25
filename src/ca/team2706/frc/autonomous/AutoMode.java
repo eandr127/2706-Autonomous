@@ -5,9 +5,9 @@ import org.strongback.command.Command;
 
 public abstract class AutoMode {
 	
-	private AutoCommand[] commands;
+	private Command[] commands;
 
-	protected abstract AutoCommand[] initializeCommands();
+	protected abstract Command[] initializeCommands();
 	
 	public void initialize() {
 		commands = initializeCommands();

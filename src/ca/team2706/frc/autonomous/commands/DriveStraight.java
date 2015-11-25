@@ -1,11 +1,12 @@
 package ca.team2706.frc.autonomous.commands;
 
-import ca.team2706.frc.autonomous.AutoCommand;
+import org.strongback.command.Command;
+
 import ca.team2706.frc.robot.Subsystems;
 import ca.team2706.frc.utils.Constants;
 import ca.team2706.frc.utils.SimLib;
 
-public class DriveStraight extends AutoCommand {
+public class DriveStraight extends Command {
 	
 	private final double distance;
 
@@ -31,7 +32,7 @@ public class DriveStraight extends AutoCommand {
 	}
 	
 	@Override
-	public boolean tick() {
+	public boolean execute() {
 		if (!Subsystems.encoderPID.isDone()) {
 			// Calculate the speed to drive at using PID
 			double driveVal = Subsystems.encoderPID.calcPID((Subsystems.leftDriveEncoder.getAngle() + Subsystems.rightDriveEncoder.getAngle()) / 2.0);
@@ -49,7 +50,12 @@ public class DriveStraight extends AutoCommand {
 	}
 
 	@Override
-	public void cleanup() {
+	public void interrupted() {
+		end();
+	}
+	
+	@Override
+	public void end() {
 		//Stop driving
 		Subsystems.robotDrive.stop();	
 	}

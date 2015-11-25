@@ -1,10 +1,11 @@
 package ca.team2706.frc.autonomous.commands;
 
-import ca.team2706.frc.autonomous.AutoCommand;
+import org.strongback.command.Command;
+
 import ca.team2706.frc.robot.Subsystems;
 import ca.team2706.frc.utils.SimLib;
 
-public class DriveTurn extends AutoCommand {
+public class DriveTurn extends Command {
 
 	private final int angle;
 	
@@ -27,7 +28,7 @@ public class DriveTurn extends AutoCommand {
 	}
 	
 	@Override
-	public boolean tick() {
+	public boolean execute() {
 		if (!Subsystems.gyroPID.isDone()) {
 			// Angle needs to be positive
 			// Calculate how fast to turn using PID
@@ -47,7 +48,12 @@ public class DriveTurn extends AutoCommand {
 	}
 
 	@Override
-	public void cleanup() {
+	public void interrupted() {
+		end();
+	}
+	
+	@Override
+	public void end() {
 		System.out.println("DriveTurn Cleanup");
 		
 		//Stop
