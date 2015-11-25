@@ -19,8 +19,8 @@ public class DriveStraightAndTurn implements AutoCommand {
 	
 	@Override
 	public void initialize() {
-		//Calculate angle to turn so that the robot can drive 
-		//along the hypotenuse of the triangle created with x and y
+		// Calculate angle to turn so that the robot can drive 
+		// along the hypotenuse of the triangle created with x and y
 		int theta = (int) Math.toDegrees(Math.atan2(x, y));
 		int angle;
 		if(x > 0 && y > 0) {
@@ -52,38 +52,38 @@ public class DriveStraightAndTurn implements AutoCommand {
 
 	@Override
 	public boolean tick() {
-		//Rotating phase 
+		// Rotating phase 
 		if (!Subsystems.gyroPID.isDone()) {
 			System.out.println("gyro.getAngle() = " + Subsystems.gyroSensor.getAngle());
 			
-			//Use PID to calculate how fast to turn the robot
+			// Use PID to calculate how fast to turn the robot
 			double driveVal = Subsystems.gyroPID.calcPID(Subsystems.gyroSensor.getAngle());
 			
-			//Limit the speed for safety (at least before everything has been tested)
+			// Limit the speed for safety (at least before everything has been tested)
 			double limitVal = SimLib.limitValue(driveVal, Constants.getConstantAsDouble(Constants.GYRO_PID_MAX));
 			System.out.println("limitVal = " + limitVal);
 			
-			//Rotate
+			// Rotate
 			Subsystems.robotDrive.tank(limitVal, -limitVal);
 
 			return true;
 		}
-		//Driving phase
+		// Driving phase
 		else if (!Subsystems.encoderPID.isDone()) {
 			if(!stage2) {
 				stage2Init();
 				stage2 = true;
 			}
 			
-			//Calculate how fast to drive with PID
+			// Calculate how fast to drive with PID
 			double driveVal = Subsystems.encoderPID
 					.calcPID((Subsystems.leftDriveEncoder.getAngle() + Subsystems.rightDriveEncoder
 							.getAngle()) / 2.0);
 
-			//Limit value again
+			// Limit value again
 			double limitVal = SimLib.limitValue(driveVal, Constants.getConstantAsDouble(Constants.ENCODER_PID_MAX));
 
-			//Drive in a straight line
+			// Drive in a straight line
 			Subsystems.robotDrive.tank(limitVal, limitVal);
 			return true;
 		}

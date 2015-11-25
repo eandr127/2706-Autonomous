@@ -3,15 +3,16 @@ package ca.team2706.frc.autonomous;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.strongback.components.Switch;
+
 import ca.team2706.frc.autonomous.modes.DriveForwardMode;
 import ca.team2706.frc.autonomous.modes.EmptyMode;
-import edu.wpi.first.wpilibj.DigitalInput;
 
 public class AutoModeSelector {
 	private static List<Class<? extends AutoMode>> modes = new ArrayList<>();
 	
 	static {
-		//TODO: Add all autonomous modes here.
+		// TODO: Add all autonomous modes here.
 		
 		// 000
 		modes.add(EmptyMode.class);
@@ -41,13 +42,13 @@ public class AutoModeSelector {
 	 * @param inputs The list of inputs.
 	 * @return The AutoMode to use.
 	 */
-	public AutoMode selectMode(DigitalInput[] inputs) {
+	public AutoMode selectMode(Switch[] inputs) {
 		try {
 			boolean[] newInputs = new boolean[inputs.length];
 			
 			for (int i = 0; i < inputs.length; i++) {
 				// A 0 from the switch means that that switch is turned on.
-				newInputs[i] = !inputs[i].get();
+				newInputs[i] = !inputs[i].isTriggered();
 				System.out.println("Input " + i + " = " + newInputs[i]);
 			}
 			// TODO: encodeBools() works. Verified by test. So that means there's 

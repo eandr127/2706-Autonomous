@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ca.team2706.frc.utils;
 
 /**
@@ -109,42 +105,42 @@ public class SimPID {
         
         ///////I Calc///////
         
-        //+ error outside of acceptable range
+        // error outside of acceptable range
         if(error > this.errorEpsilon) {
-            //check if error sum was in the wrong direction
+            // Check if error sum was in the wrong direction
             if(this.errorSum < 0.0) {
                 this.errorSum = 0.0;
             }
-            //only allow up to the max contribution per cycle
+            // Only allow up to the max contribution per cycle
             this.errorSum += Math.min(error, this.errorIncrement);
-        } //- error outside of acceptable range
+        } // error outside of acceptable range
         else if(error < -1.0 * this.errorEpsilon) {
-            //error sum was in the wrong direction
+            // error sum was in the wrong direction
             if(this.errorSum > 0.0) {
                 this.errorSum = 0.0;
             }
-            //add either the full error or the max allowable amount to sum
+            // Add either the full error or the max allowable amount to sum
             this.errorSum += Math.max(error, -1.0 * this.errorIncrement);
         }
-        //within the allowable epsilon
+        // Within the allowable epsilon
         else {
-            //reset the error sum
+            // Reset the error sum
             this.errorSum = 0.0;
         }
-        //i contribution (final) calculation
+        // i contribution (final) calculation
         iVal = this.iConst * this.errorSum;
         
         ///////D Calc///////
         double deriv = currentVal - this.previousVal;
         dVal = this.dConst * deriv;
         
-        //overal PID calc
+        // Overall PID calc
         double output = pVal + iVal - dVal;
         
-        //limit the output
+        // Limit the output
         output = SimLib.limitValue(output, this.maxOutput);
         
-        //store current value as previous for next cycle
+        // Store current value as previous for next cycle
         this.previousVal = currentVal;
         
         return output;
@@ -153,11 +149,11 @@ public class SimPID {
     public boolean isDone() {
         double currError = Math.abs(this.desiredVal - this.previousVal);
         
-        //close enough to target
+        // Close enough to target
         if(currError <= this.doneRange) {
             this.cycleCount++;
         }
-        //not close enough to target
+        // Not close enough to target
         else {
             this.cycleCount = 0;
         }

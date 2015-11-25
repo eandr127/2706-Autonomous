@@ -33,11 +33,11 @@ public class DriveTurn implements AutoCommand {
 			// Calculate how fast to turn using PID
 			double driveVal = Subsystems.gyroPID.calcPID(Subsystems.gyroSensor.getAngle());
 			
-			//Rotate at a safe speed
+			// Rotate at a safe speed
 			double limitVal = SimLib.limitValue(driveVal, 0.9);
 			System.out.println("gyro.getAngle() = " + Subsystems.gyroSensor.getAngle()+",limitVal = " + limitVal);
 			
-			//Rotate robot
+			// Rotate robot
 			Subsystems.robotDrive.tank(limitVal, -limitVal);
 			System.out.println("Right: " + Subsystems.rightDrive.getSpeed() + " Left: " + Subsystems.leftDrive.getSpeed());
 			return true;

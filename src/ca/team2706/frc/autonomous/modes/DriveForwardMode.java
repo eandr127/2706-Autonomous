@@ -7,7 +7,7 @@ import ca.team2706.frc.autonomous.commands.DriveStraight;
 
 public class DriveForwardMode extends AutoMode {
 	
-	//TODO: Test this on practice field. These are bogus values.
+	// TODO: Test this on practice field. These are bogus values.
 	private static final double STRAIGHT_DISTANCE = 9.45; // TODO Change this number!!!!!
 	
 	@Override

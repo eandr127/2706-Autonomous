@@ -31,15 +31,15 @@ public class AutoHelper {
 	 * @return Whether the operation was successful or not
 	 */
 	public static boolean writeLineToFile(String line, File file) {
-		//Declare streams
+		// Declare streams
 		PrintStream stream = null;
 		FileOutputStream fileStream = null;
 		
 		try {
-			//Create file in case it does not exist
+			// Create file in case it does not exist
 			file.createNewFile();
 			
-			//Initialize streams
+			// Initialize streams
 			fileStream = new FileOutputStream(file, false);
 			stream = new PrintStream(fileStream);
 		} catch (IOException e) {
@@ -47,11 +47,11 @@ public class AutoHelper {
 			return false;	
 		}
 		
-		//Print line to file
+		// Print line to file
 		stream.println(line);
 		
 		try {
-			//Close streams
+			// Close streams
 			fileStream.close();
 			stream.close();
 		} catch (IOException e) {

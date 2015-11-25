@@ -6,11 +6,11 @@ public abstract class AutoMode {
 	private int commandIdx = 0;
 	
 	public void tick() {
-		if (commandIdx < commands.length) {  //Still commands
-			if (!commands[commandIdx].tick()) { //This command is done
-				commands[commandIdx].cleanup(); // cleanup command
+		if (commandIdx < commands.length) {  // Still commands
+			if (!commands[commandIdx].tick()) { // This command is done
+				commands[commandIdx].cleanup(); // Cleanup command
 				commandIdx++; //increment index
-				if (commandIdx < commands.length) { // still commands after incrementation
+				if (commandIdx < commands.length) { // Still commands after incrementation
 					commands[commandIdx].initialize(); // Init next command
 				}
 			}

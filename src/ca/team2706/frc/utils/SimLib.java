@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ca.team2706.frc.utils;
 
 /**
@@ -27,7 +23,7 @@ public class SimLib {
     public static double squareMaintainSign(double val) {
         double output = val * val;
         
-        //was originally regative
+        // Was originally regative
         if(val < 0) {
             output = -output;
         }

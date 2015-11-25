@@ -10,7 +10,7 @@ public class EmptyMode extends AutoMode {
 	protected AutoCommand[] initializeCommands() {
 		AutoBuilder builder = new AutoBuilder();
 		
-		//Do nothing
+		// Do nothing
 		return builder.toArray();
 	}
 }

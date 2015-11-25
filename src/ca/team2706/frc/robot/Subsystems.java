@@ -9,19 +9,17 @@ import org.strongback.components.AngleSensor;
 import org.strongback.components.Gyroscope;
 import org.strongback.components.Motor;
 import org.strongback.components.PowerPanel;
+import org.strongback.components.Switch;
 import org.strongback.components.ui.FlightStick;
 import org.strongback.components.ui.Gamepad;
 import org.strongback.drive.TankDrive;
 import org.strongback.hardware.Hardware;
-import org.strongback.hardware.Hardware.AngleSensors;
-
 import com.google.common.base.Charsets;
 import com.google.common.collect.Iterables;
 
 import ca.team2706.frc.autonomous.AutoHelper;
 import ca.team2706.frc.utils.Constants;
 import ca.team2706.frc.utils.SimPID;
-import edu.wpi.first.wpilibj.DigitalInput;
 
 
 public class Subsystems {	
@@ -48,45 +46,45 @@ public class Subsystems {
 	public static PowerPanel powerPanel;
  	
  	// PIDs
+	// TODO: Use Strongback's PID when 1.1.0 comes out
  	public static SimPID gyroPID;
  	public static SimPID encoderPID;
  	
- 	public static DigitalInput[] inputs;
+ 	public static Switch[] inputs;
 
 	/**
 	 * Initialize all of the subsystems, assumes that the constants file has been read already
 	 */
-	public static void initialize()
-	{
-		//Motors
+	public static void initialize() {
+		// Motors
 		rightDrive = Hardware.Motors.talon(Constants.getConstantAsInt(Constants.PWM_RIGHT_DRIVE));
 		leftDrive = Hardware.Motors.talon(Constants.getConstantAsInt(Constants.PWM_LEFT_DRIVE));
 		
-		//Drive
+		// Drive
 		robotDrive = new TankDrive(leftDrive, rightDrive);
 		
 		// Encoders
-		rightDriveEncoder = AngleSensors.encoder(Constants.getConstantAsInt(Constants.DIO_RIGHT_ENCODER_A), 
+		rightDriveEncoder = Hardware.AngleSensors.encoder(Constants.getConstantAsInt(Constants.DIO_RIGHT_ENCODER_A), 
 				Constants.getConstantAsInt(Constants.DIO_RIGHT_ENCODER_B), 1);
-		leftDriveEncoder = AngleSensors.encoder(Constants.getConstantAsInt(Constants.DIO_LEFT_ENCODER_A), 
+		leftDriveEncoder = Hardware.AngleSensors.encoder(Constants.getConstantAsInt(Constants.DIO_LEFT_ENCODER_A), 
 				Constants.getConstantAsInt(Constants.DIO_LEFT_ENCODER_B), 1);
 
 		// Power Panel
 		powerPanel = Hardware.powerPanel();
 		
 		// Sensors
-		gyroSensor = AngleSensors.gyroscope(Constants.getConstantAsInt(Constants.AIO_GYRO_SENSOR));
+		gyroSensor = Hardware.AngleSensors.gyroscope(Constants.getConstantAsInt(Constants.AIO_GYRO_SENSOR));
 		
-		//USB
+		// USB
 		driveJoystick = Hardware.HumanInterfaceDevices.logitechAttack3D(Constants.getConstantAsInt(Constants.USB_DRIVE_STICK));
 		controlGamepad = Hardware.HumanInterfaceDevices.logitechDualAction(Constants.getConstantAsInt(Constants.USB_CONTROL_GAMEPAD));
 		
 		initPID();
 
-		inputs = new DigitalInput[Constants.getConstantAsInt(Constants.NUM_AUTO_SELECT)];
+		inputs = new Switch[Constants.getConstantAsInt(Constants.NUM_AUTO_SELECT)];
 
 		for(int i = 0; i < Constants.getConstantAsInt(Constants.NUM_AUTO_SELECT); ++i) {
-			inputs[i] = new DigitalInput(i + Constants.getConstantAsInt(Constants.FIRST_DIGITAL_SELECT));
+			inputs[i] = Hardware.Switches.normallyOpen(i + Constants.getConstantAsInt(Constants.FIRST_DIGITAL_SELECT));
 		}
 	}
 	
@@ -94,7 +92,7 @@ public class Subsystems {
 	 * Public for testing purposes. Initializes the PID controllers.
 	 */
 	public static void initPID() {
-		//PIDs
+		// PIDs
 		gyroPID = new SimPID(
 				Constants.getConstantAsDouble(Constants.GYRO_PID_P),
 				Constants.getConstantAsDouble(Constants.GYRO_PID_I),
@@ -118,7 +116,7 @@ public class Subsystems {
 		double encoderBDistancePerPulse = encoderBDistancePerPulseOverride;
 		
 		try {
-			//Read values from file
+			// Read values from file
 			List<String> guavaResult = Files.readAllLines(new File(Constants.getConstant(Constants.CALIBRATION_FILE_LOC)).toPath(), Charsets.UTF_8);
 			Iterable<String> guavaResultFiltered = Iterables.filter(guavaResult, AutoHelper.SKIP_COMMENTS);
 
@@ -131,19 +129,19 @@ public class Subsystems {
 				encoderBDistancePerPulse = Double.parseDouble(s[1]);
 			} 
 			
-			//Set feet to encoder tick ratios from file
+			// Set feet to encoder tick ratios from file
 			System.out.println("EncoderADistancePerPulse:" + encoderADistancePerPulse + ", EncoderBDistancePerPulse:" + encoderBDistancePerPulse);
 			
-			leftDriveEncoder = AngleSensors.encoder(Constants.getConstantAsInt(Constants.DIO_LEFT_ENCODER_A), 
+			leftDriveEncoder = Hardware.AngleSensors.encoder(Constants.getConstantAsInt(Constants.DIO_LEFT_ENCODER_A), 
 					Constants.getConstantAsInt(Constants.DIO_LEFT_ENCODER_B), encoderADistancePerPulse);
-			rightDriveEncoder = AngleSensors.encoder(Constants.getConstantAsInt(Constants.DIO_RIGHT_ENCODER_A), 
+			rightDriveEncoder = Hardware.AngleSensors.encoder(Constants.getConstantAsInt(Constants.DIO_RIGHT_ENCODER_A), 
 					Constants.getConstantAsInt(Constants.DIO_RIGHT_ENCODER_B), encoderBDistancePerPulse);
 		} catch (IOException e) {
 			System.out.println("Calibration file read error!");
-			//Set to backup values
-			leftDriveEncoder = AngleSensors.encoder(Constants.getConstantAsInt(Constants.DIO_LEFT_ENCODER_A), 
+			// Set to backup values
+			leftDriveEncoder = Hardware.AngleSensors.encoder(Constants.getConstantAsInt(Constants.DIO_LEFT_ENCODER_A), 
 					Constants.getConstantAsInt(Constants.DIO_LEFT_ENCODER_B), encoderADistancePerPulseOverride);
-			rightDriveEncoder = AngleSensors.encoder(Constants.getConstantAsInt(Constants.DIO_RIGHT_ENCODER_A), 
+			rightDriveEncoder = Hardware.AngleSensors.encoder(Constants.getConstantAsInt(Constants.DIO_RIGHT_ENCODER_A), 
 					Constants.getConstantAsInt(Constants.DIO_RIGHT_ENCODER_B), encoderBDistancePerPulseOverride);
 		}
 	}
