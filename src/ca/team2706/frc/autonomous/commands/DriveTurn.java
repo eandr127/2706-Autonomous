@@ -10,6 +10,8 @@ public class DriveTurn extends Command {
 	private final int angle;
 	
 	public DriveTurn(int angle) {
+		super();
+		
 		this.angle = angle;
 	}
 	
@@ -41,9 +43,9 @@ public class DriveTurn extends Command {
 			// Rotate robot
 			Subsystems.robotDrive.tank(limitVal, -limitVal);
 			System.out.println("Right: " + Subsystems.rightDrive.getSpeed() + " Left: " + Subsystems.leftDrive.getSpeed());
-			return true;
+			return false;
 		}
-		return false;
+		return true;
 		
 	}
 

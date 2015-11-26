@@ -11,6 +11,7 @@ public class DriveStraight extends Command {
 	private final double distance;
 
 	public DriveStraight(double distance) {
+		super();
 		this.distance = distance;
 	}
 	
@@ -43,9 +44,9 @@ public class DriveStraight extends Command {
 			Subsystems.robotDrive.tank(limitVal, limitVal);
 			System.out.println("LEV:" + Subsystems.leftDriveEncoder.getAngle() + ",REV:" + Subsystems.rightDriveEncoder.getAngle()+
 					",LED:" + Subsystems.leftDriveEncoder.getAngle() + ",RED:" + Subsystems.rightDriveEncoder.getAngle()+",DV:"+driveVal);
-			return true;
+			return false;
 		}
-		return false;
+		return true;
 		
 	}
 
