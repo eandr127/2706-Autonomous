@@ -12,7 +12,7 @@ import ca.team2706.frc.robot.Subsystems;
 public class DriveStraightTest {
 
 	@Test
-    public void shouldDriveForward5Feet() {
+	public void shouldDriveForward5Feet() {
 		// Reset subsystem with mock components
 		MockSubsystems.initialize();
 		
@@ -46,7 +46,7 @@ public class DriveStraightTest {
     }
 	
 	@Test
-    public void shouldDriveBackwards5Feet() {
+	public void shouldDriveBackwards5Feet() {
 		MockSubsystems.initialize();
 		
 		// Only difference from the first method

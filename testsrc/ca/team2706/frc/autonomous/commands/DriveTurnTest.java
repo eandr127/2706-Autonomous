@@ -12,7 +12,7 @@ import ca.team2706.frc.robot.Subsystems;
 public class DriveTurnTest {
 
 	@Test
-    public void shouldTurn180DegreesClockwise() {
+	public void shouldTurn180DegreesClockwise() {
 		// Reset subsystem with mock components
 		MockSubsystems.initialize();
 		
@@ -44,7 +44,7 @@ public class DriveTurnTest {
     }
 	
 	@Test
-    public void shouldTurn180DegreesCounterClockwise() {
+	public void shouldTurn180DegreesCounterClockwise() {
 		MockSubsystems.initialize();
 		
 		// Only difference from the first method
