@@ -151,6 +151,6 @@ public class ECommandGroup extends CommandGroup {
     public CommandGroup sequentially( Command ... commands ) {
     	this.commands = commands;
     	root = runSequentially(commands);
-        return runSequentially(commands);
+        return super.sequentially(commands);
     }
 }
