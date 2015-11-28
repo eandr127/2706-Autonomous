@@ -33,7 +33,7 @@ public abstract class MockInputDevice implements InputDevice {
 			return axes.get(axis);
 	}
 	
-	public void setAddAxis(int axisNum, ContinuousRange axis, boolean expandAxisCount) {
+	public void setOrAddAxis(int axisNum, ContinuousRange axis, boolean expandAxisCount) {
 		if(axisNum >= axes.size())
 			if((expandAxisCount && axisNum >= 0) || axisNum == axes.size()) {
 				for(int i = axes.size(); i <= axisNum-1; i++)
@@ -55,7 +55,7 @@ public abstract class MockInputDevice implements InputDevice {
 			return buttons.get(button);
 	}
 	
-	public void setAddButton(int buttonNum, Switch button, boolean expandButtonCount) {
+	public void setOrAddButton(int buttonNum, Switch button, boolean expandButtonCount) {
 		if(buttonNum >= buttons.size())
 			if((expandButtonCount && buttonNum >= 0) || buttonNum == buttons.size()) {
 				for(int i = buttons.size(); i <= buttonNum-1; i++)
@@ -77,7 +77,7 @@ public abstract class MockInputDevice implements InputDevice {
 			return pads.get(pad);
 	}
 	
-	public void setAddDPad(int padNum, DirectionalAxis pad, boolean expandPadCount) {
+	public void setOrAddDPad(int padNum, DirectionalAxis pad, boolean expandPadCount) {
 		if(padNum >= padVals.size())
 			if((expandPadCount && padNum >= 0) || padNum == padVals.size()) {
 				for(int i = padVals.size(); i <= padNum-1; i++) {

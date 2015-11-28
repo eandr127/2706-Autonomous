@@ -18,6 +18,7 @@ package ca.team2706.frc.autonomous;
 
 import org.strongback.annotation.NotThreadSafe;
 import org.strongback.command.Command;
+import org.strongback.command.CommandGroup;
 
 /**
  * A {@link ECommandGroup} is a series of {@link Command}s executed in sequence or in parallel. A command group is created by
@@ -106,36 +107,15 @@ import org.strongback.command.Command;
  * completes. Note that this is true even if {@code CommandC} is still running.
  */
 @NotThreadSafe
-public class ECommandGroup extends Command {
-
-    /**
-     * Creates a single {@link ECommandGroup} that executes several {@link Command}s in sequential order.
-     *
-     * @param commands the {@link Command}s to be executed
-     * @return the {@link ECommandGroup} wrapping the {@link Command}s
-     */
-    public static ECommandGroup runSequentially( Command ... commands ) {
-        return new ECommandGroup(commands,Type.SEQUENTIAL);
-    }
-
-    /**
-     * Creates a single {@link ECommandGroup} that executes several {@link Command}s simultaneously.
-     *
-     * @param commands the {@link Command}s to be executed
-     * @return the {@link ECommandGroup} wrapping the {@link Command}s
-     */
-    public static ECommandGroup runSimultaneously( Command ... commands ) {
-        return new ECommandGroup(commands,Type.PARRALLEL);
-    }
+public class ECommandGroup extends CommandGroup {
 
     static enum Type {
         SEQUENTIAL, PARRALLEL, FORK;
     }
 
     private Command root;
-    private  Command[] commands;
+    private Command[] commands;
     private final Type type;
-    private int commandIdx = 0;
 
     /**
      * Create a new command group. Typically, subclass constructors call this constructor (perhaps implicitly) and then add one
@@ -143,84 +123,34 @@ public class ECommandGroup extends Command {
      * .
      */
     protected ECommandGroup() {
+    	super();
+    	
         commands = null;
         type = Type.SEQUENTIAL;
     }
 
-    private ECommandGroup(Command[] commands, Type type) {
-        this.commands = commands;
-        this.type = type;
-    }
-
-    Type getType() {
+    Type getCommandType() {
         return type;
     }
 
-    Command[] getCommands() {
+    Command[] getCommandArray() {
         return commands;
     }
 
-    Command getRoot() {
+    Command getRootCommandGroup() {
         return root;
     }
-
+    
     /**
-     * Wraps several {@link Commands}s in a single {@link ECommandGroup} that executes them simultaneously.
-     *
-     * @param commands the {@link CommandRunner}s to wrap
-     * @return the {@link ECommandGroup} wrapping the {@link Command}s
-     */
-    public ECommandGroup simultaneously(Command... commands) {
-        ECommandGroup cg = new ECommandGroup(commands, Type.PARRALLEL);
-        root = cg;
-        return cg;
-    }
-
-    /**
-     * Creates a single {@link ECommandGroup} that executes several {@link Command}s in sequential order.
+     * Creates a single {@link CommandGroup} that executes several {@link Command}s in sequential order.
      *
      * @param commands the {@link Command}s to be executed
-     * @return the {@link ECommandGroup} wrapping the {@link Command}s
+     * @return the {@link CommandGroup} wrapping the {@link Command}s
      */
-    public ECommandGroup sequentially(Command... commands) {
-        ECommandGroup cg = new ECommandGroup(commands, Type.SEQUENTIAL);
-        root = cg;
-        this.commands = commands;
-        return cg;
-    }
-
-    /**
-     * Add a {@link Command} that executes independently of any other {@link Command}s in this group.
-     *
-     * @param forked the {@link Command} to fork
-     * @return the forked {@link ECommandGroup}
-     */
-    public ECommandGroup fork(Command forked) {
-        ECommandGroup cg = new ECommandGroup(new Command[] { forked }, Type.FORK);
-        root = cg;
-        return cg;
-    }
-
     @Override
-    public void initialize() {
-    	commands[0].initialize();
+    public CommandGroup sequentially( Command ... commands ) {
+    	this.commands = commands;
+    	root = runSequentially(commands);
+        return runSequentially(commands);
     }
-    
-    @Override
-    public boolean execute() {  
-    	if (commandIdx < commands.length) {  //Still commands
-			if (commands[commandIdx].execute()) { //This command is done
-				commands[commandIdx].end(); // cleanup command
-				commandIdx++; //increment index
-				if (commandIdx < commands.length) { // still commands after incrementation
-					commands[commandIdx].initialize(); // Init next command
-				}
-			}
-		}
-    	else
-    		return true;
-    	
-    	return false;
-    }
-
 }

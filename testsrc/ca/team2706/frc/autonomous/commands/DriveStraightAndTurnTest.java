@@ -3,10 +3,10 @@ package ca.team2706.frc.autonomous.commands;
 import org.junit.Assert;
 import org.junit.Test;
 import org.strongback.command.Command;
-import org.strongback.command.CommandTester;
 import org.strongback.mock.MockAngleSensor;
 import org.strongback.mock.MockGyroscope;
 
+import ca.team2706.frc.autonomous.ECommandTester;
 import ca.team2706.frc.robot.MockSubsystems;
 import ca.team2706.frc.robot.Subsystems;
 
@@ -22,7 +22,8 @@ public class DriveStraightAndTurnTest {
 		double speed;
 		
 		// Create a CommandTester to run the Command
-		CommandTester runner = new CommandTester(command);
+		
+		ECommandTester runner = new ECommandTester(command);
 		
 		long startTime = System.currentTimeMillis();
 		
@@ -66,7 +67,7 @@ public class DriveStraightAndTurnTest {
 		Command command = new DriveStraightAndTurn(10, -10);
 		double speed;
 		
-		CommandTester runner = new CommandTester(command);
+		ECommandTester runner = new ECommandTester(command);
 		
 		long startTime = System.currentTimeMillis();
 		
@@ -98,7 +99,7 @@ public class DriveStraightAndTurnTest {
 		Command command = new DriveStraightAndTurn(-10, 10);
 		double speed;
 		
-		CommandTester runner = new CommandTester(command);
+		ECommandTester runner = new ECommandTester(command);
 		
 		long startTime = System.currentTimeMillis();
 		
@@ -130,7 +131,7 @@ public class DriveStraightAndTurnTest {
 		Command command = new DriveStraightAndTurn(-10, -10);
 		double speed;
 		
-		CommandTester runner = new CommandTester(command);
+		ECommandTester runner = new ECommandTester(command);
 		
 		long startTime = System.currentTimeMillis();
 		
