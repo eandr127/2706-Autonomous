@@ -1,5 +1,8 @@
 package ca.team2706.frc.mechanism.raspberrypi;
 
+/**
+ * TODO: Actually implement RaspberryPi, this is useless!
+ */
 public class RaspberryPiImpl extends RaspberryPi {
 
 	public RaspberryPiImpl(String ip) {
