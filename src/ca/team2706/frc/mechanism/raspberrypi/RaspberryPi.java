@@ -6,7 +6,7 @@ package ca.team2706.frc.mechanism.raspberrypi;
  * This class is an abstraction layer for the Raspberry Pi, 
  * it only needs to get the location relative from the robot of an object.
  * It should communicate with the Raspberry Pi which, (as far as I know),
- * will apply a filter and get the location on the location on the camera.
+ * will apply a filter and get the location on the camera.
  * It should then convert that location to x,y distance from the robot and return it.
  * 
  * Ex: Find ball, which is at 1,2 on the camera, which is say 3 in front of the robot,
