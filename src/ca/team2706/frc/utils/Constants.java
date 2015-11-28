@@ -57,6 +57,7 @@ public class Constants
 	
 	//Other
 	public static final String DEBUG_LOGGING = 					"DEBUG_LOGGING";
+	public static final String RASPBERRY_PI_IP = 				"RASPBERRY_PI_IP";
 
 	static {
 		// Motor Types
@@ -105,6 +106,7 @@ public class Constants
 		
 		//Other
 		defaults.put(DEBUG_LOGGING, "true");
+		defaults.put(RASPBERRY_PI_IP, "10.27.06.2");
 		
 		constants.putAll(defaults);
 	}
