@@ -7,7 +7,7 @@
     <property name="strongback.dir" value="${user.home}/strongback"/>
     <property name="strongback.parent.dir" location="${strongback.dir}/.."/>
     <property name="strongback.url" value="https://github.com/strongback/strongback-java/releases/download"/>
-	<property name="strongback.version" value="$1.0.2"/>
+	<property name="strongback.version" value="1.0.2"/>
     <property name="download.dir" value="build-downloads"/>
 
     <target name="help">
