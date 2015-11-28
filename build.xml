@@ -3,6 +3,8 @@
 
     <property file="build.properties"/>
     <property name="wpilib.dir" value="${user.home}/wpilib"/>
+    <!-- Hack because the eclipse ant uses relative paths for junit -->
+    <property name="junit.dir" value="../../junit"/>
     <property name="wpilib.ant.dir" value="${wpilib.dir}/java/current/ant"/>
     <property name="strongback.dir" value="${user.home}/strongback"/>
     <property name="strongback.parent.dir" location="${strongback.dir}/.."/>
@@ -50,7 +52,7 @@
 
     <!-- Install Dependencies -->
     <target name="deps" 
-            depends="download-strongback,download-wpilib,clean-downloads" 
+            depends="download-strongback,download-wpilib,clean-downloads,download-junit" 
             description="Checks for WPILib and Strongback, and if missing downloads and installs them">
     </target>
 
@@ -62,6 +64,27 @@
     <!-- ===================================================== -->
     <!--   Check and install WPI if needed                     -->
     <!-- ===================================================== -->
+    <target name="check-for-junit">
+        <condition property="junit-missing">
+            <not>
+                <available file="${junit.dir}" type="dir"/>
+            </not>
+        </condition>
+    </target>
+
+    <target name="download-junit" depends="check-for-junit" if="junit-missing" >
+        <echo>Downloading the Junit 4.12 and installing into '${junit.dir}'.</echo>
+        <mkdir dir="${junit.dir}"/>
+        <echo>Installing junit 4.12</echo>
+        <!-- Get the plugin JAR file, and extract it's 'java.zip' file -->
+        <get src="${junit.location}" dest="${junit.dir}/junit.4.12.jar"/>
+        <!-- Write out a property file in the directory -->
+        <propertyfile file="${junit.dir}/junit.properties" comment="Downloaded and installed by Strongback build system">
+            <entry  key="version" value="current"/>
+            <entry  key="junit.version" value="4.12"/>
+        </propertyfile>
+    </target>
+
 
     <target name="check-for-wpilib">
         <condition property="wpilib-missing">
