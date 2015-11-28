@@ -13,7 +13,7 @@ import ca.team2706.frc.controls.EGamepad;
 import ca.team2706.frc.controls.EJoystick;
 import ca.team2706.frc.controls.Motor;
 import ca.team2706.frc.mechanism.SimGyro;
-import ca.team2706.frc.mechanism.raspberrypi.RaspberryPi;
+import ca.team2706.frc.mechanism.raspberrypi.RaspberryPiImpl;
 import ca.team2706.frc.utils.Constants;
 import ca.team2706.frc.utils.SimPID;
 import edu.wpi.first.wpilibj.Compressor;
@@ -54,7 +54,7 @@ public class Subsystems {
  	
  	public static DigitalInput[] inputs;
  	
- 	public static RaspberryPi pi;
+ 	public static RaspberryPiImpl pi;
 
 	/**
 	 * Initialize all of the subsystems, assumes that the constants file has been read already
@@ -84,7 +84,7 @@ public class Subsystems {
 			inputs[i] = new DigitalInput(i + Constants.getConstantAsInt(Constants.FIRST_DIGITAL_SELECT));
 		}
 		
-		pi = new RaspberryPi(Constants.getConstant(Constants.RASPBERRY_PI_IP));
+		pi = new RaspberryPiImpl(Constants.getConstant(Constants.RASPBERRY_PI_IP));
 	}
 	
 	/**
