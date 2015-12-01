@@ -21,24 +21,8 @@ public class DriveStraightAndTurn implements AutoCommand {
 	public void initialize() {
 		//Calculate angle to turn so that the robot can drive 
 		//along the hypotenuse of the triangle created with x and y
-		int theta = (int) Math.toDegrees(Math.atan2(x, y));
-		int angle;
-		if(x > 0 && y > 0) {
-			angle = theta;
-		}
-		else if(x > 0 && y < 0) {
-			angle = 180 - theta;
-		}
-		else if(x < 0 && y < 0) {
-			angle = -180 + theta;
-		}
-		else if(x < 0 && y > 0) {
-			angle = -theta;
-		}
-		else {
-			angle = 0;
-		}
-		
+		int angle = (int) Math.toDegrees(Math.atan2(x, y));
+
 		Subsystems.gyroPID.setDesiredValue(angle);
 		Subsystems.gyroSensor.reset(0);
 		// Reset the gyro PID to a reasonable state.
